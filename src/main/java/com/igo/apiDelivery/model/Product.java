@@ -1,9 +1,13 @@
 package com.igo.apiDelivery.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "tb_product")
 public class Product {
     @Id
@@ -19,54 +23,10 @@ public class Product {
     private String imgURL;
     private boolean avaliable = true;
 
-    public Product() {
-    }
+    @ManyToOne
+    private Restaurant restaurant;
 
-    public Product(Long id, String description, BigDecimal price, String imgURL, Boolean avaliable) {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-        this.imgURL = imgURL;
-        this.avaliable = avaliable;
-    }
+    @OneToMany
+    private Category category;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getImgURL() {
-        return imgURL;
-    }
-
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
-    }
-
-    public Boolean getAvaliable() {
-        return avaliable;
-    }
-
-    public void setAvaliable(Boolean avaliable) {
-        this.avaliable = avaliable;
-    }
 }

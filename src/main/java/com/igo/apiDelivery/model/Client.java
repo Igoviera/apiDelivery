@@ -1,7 +1,15 @@
 package com.igo.apiDelivery.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "tb_client")
 public class Client {
 
@@ -16,42 +24,9 @@ public class Client {
     private String email;
 
     @Embedded
-    private Adress adress;
+    private Address address;
 
-    public Client() {
-    }
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    private Bag bag;
 
-    public Client(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Adress getAdress() {
-        return adress;
-    }
-
-    public void setAdress(Adress adress) {
-        this.adress = adress;
-    }
 }

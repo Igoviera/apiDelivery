@@ -13,8 +13,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false)
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
@@ -26,7 +29,8 @@ public class Product {
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany
-    private Category category;
+//    @OneToMany()
+//    @JoinColumn(name = "category_id")
+//    private Category category;
 
 }

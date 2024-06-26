@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.service.imp;
 
+import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.repository.ProductRepository;
 import com.igo.apiDelivery.service.ProductService;
@@ -29,7 +30,7 @@ public class ProductServiceImp implements ProductService {
     public Product findByIdProduct(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> {
-                    throw new RuntimeException("Produto não encontrado");
+                    throw new RecordNotFoundException(id);
                 });
     }
 

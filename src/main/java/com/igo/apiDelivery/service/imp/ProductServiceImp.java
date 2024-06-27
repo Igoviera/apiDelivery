@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ProductServiceImp implements ProductService {
 
-    private  final ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public Product insertProduct(Product product) {
@@ -23,37 +23,34 @@ public class ProductServiceImp implements ProductService {
         newProduct.setDescription(product.getDescription());
         newProduct.setPrice(product.getPrice());
 
-       return productRepository.save(newProduct);
+        return productRepository.save(newProduct);
     }
 
     @Override
     public Product findByIdProduct(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> {
-                    throw new RecordNotFoundException(id);
-                });
+        return productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
     public List<Product> findAllProducts() {
-       return productRepository.findAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        Product product1 = findByIdProduct(id);
-
-        product1.setPrice(product.getPrice());
-        product1.setName(product.getName());
-        product1.setDescription(product.getDescription());
-        product1.setImgURL(product.getImgURL());
-
-       return productRepository.save(product1);
+        return productRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setPrice(product.getPrice());
+                    recordFound.setName(product.getName());
+                    recordFound.setDescription(product.getDescription());
+                    recordFound.setImgURL(product.getImgURL());
+                    return productRepository.save(recordFound);
+                }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
     public void deleteProduct(Long id) {
-        Product product1 = findByIdProduct(id);
-        productRepository.delete(product1);
+        productRepository.delete(productRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }

@@ -3,6 +3,7 @@ package com.igo.apiDelivery.controller;
 import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.service.ProductService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/ifood/products")
+@RequiredArgsConstructor
+@RequestMapping("/api/food/products")
 public class ProductController {
 
     private final ProductService productService;

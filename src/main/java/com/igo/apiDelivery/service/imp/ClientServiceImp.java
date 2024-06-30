@@ -15,7 +15,7 @@ public class ClientServiceImp implements ClientService {
 
     @Override
     public Client insertClient(Client client) {
-        return null;
+        return clientRepository.save(client);
     }
 
     @Override

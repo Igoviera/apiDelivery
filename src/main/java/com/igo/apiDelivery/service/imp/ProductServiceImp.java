@@ -2,18 +2,22 @@ package com.igo.apiDelivery.service.imp;
 
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Product;
+import com.igo.apiDelivery.model.Restaurant;
 import com.igo.apiDelivery.repository.ProductRepository;
+import com.igo.apiDelivery.repository.RestaurantRepository;
 import com.igo.apiDelivery.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Override
     public Product insertProduct(Product product) {
@@ -22,6 +26,14 @@ public class ProductServiceImp implements ProductService {
         newProduct.setName(product.getName());
         newProduct.setDescription(product.getDescription());
         newProduct.setPrice(product.getPrice());
+
+        Long restauranteId = product.getRestaurant().getId();
+        Restaurant restaurant = restaurantRepository.findById(restauranteId)
+                .orElseThrow(() -> new RecordNotFoundException(restauranteId));
+
+        newProduct.setRestaurant(restaurant);
+
+        restaurant.getProducts().add(newProduct);
 
         return productRepository.save(newProduct);
     }

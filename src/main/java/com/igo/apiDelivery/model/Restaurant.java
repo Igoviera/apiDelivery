@@ -1,12 +1,17 @@
 package com.igo.apiDelivery.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,7 +29,9 @@ public class Restaurant {
     @Embedded
     private Address address;
 
-    @OneToMany()
-    private List<Product> products;
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    private Set<Product> products = new HashSet<>();
 
 }

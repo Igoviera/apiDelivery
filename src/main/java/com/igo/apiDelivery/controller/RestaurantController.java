@@ -3,10 +3,7 @@ package com.igo.apiDelivery.controller;
 import com.igo.apiDelivery.model.Restaurant;
 import com.igo.apiDelivery.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,7 +13,11 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @PostMapping
-    public Restaurant insertRestaurant(@RequestBody Restaurant restaurant){
-        return restaurantService.insertRestaurant(restaurant);
+    public Restaurant insertRestaurant(@RequestBody Restaurant restaurantEntity){
+        return restaurantService.insertRestaurant(restaurantEntity);
+    }
+    @GetMapping("/{id}")
+    public Restaurant findByIdRestaurant(@PathVariable("id") Long id){
+        return restaurantService.findByIdRestaurant(id);
     }
 }

@@ -20,4 +20,8 @@ public class ClientController {
     public Client findByIdClient(@PathVariable("id") Long id){
         return clientService.findByIdClient(id);
     }
+    @DeleteMapping("/{id}")
+    public void deleteClient(@PathVariable("id") Long id){
+        clientService.deleteClient(id);
+    }
 }

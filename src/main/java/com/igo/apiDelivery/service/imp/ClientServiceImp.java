@@ -30,6 +30,7 @@ public class ClientServiceImp implements ClientService {
 
     @Override
     public void deleteClient(Long id) {
-
+        clientRepository.delete(clientRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }

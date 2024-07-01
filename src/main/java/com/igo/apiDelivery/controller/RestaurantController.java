@@ -2,6 +2,7 @@ package com.igo.apiDelivery.controller;
 
 import com.igo.apiDelivery.model.Restaurant;
 import com.igo.apiDelivery.service.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @PostMapping
-    public Restaurant insertRestaurant(@RequestBody Restaurant restaurantEntity){
+    public Restaurant insertRestaurant(@Valid @RequestBody Restaurant restaurantEntity){
         return restaurantService.insertRestaurant(restaurantEntity);
     }
     @GetMapping
@@ -28,7 +29,7 @@ public class RestaurantController {
         return restaurantService.findByIdRestaurant(id);
     }
     @PutMapping("/{id}")
-    public Restaurant updateRestaurant(@PathVariable("id") Long id, @RequestBody Restaurant restaurant){
+    public Restaurant updateRestaurant(@Valid @PathVariable("id") Long id, @RequestBody Restaurant restaurant){
         return restaurantService.updateRestaurant(id, restaurant);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)

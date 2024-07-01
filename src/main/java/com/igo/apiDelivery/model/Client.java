@@ -1,6 +1,7 @@
 package com.igo.apiDelivery.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty(message = "Campo nome é obrigatório")
     @Column(nullable = false)
     private String name;
 
+    @NotEmpty(message = "Campo e-mail é obrigatório")
     @Column(nullable = false, unique = true)
     private String email;
 

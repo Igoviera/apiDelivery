@@ -2,6 +2,7 @@ package com.igo.apiDelivery.controller;
 
 import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product insertProduct(@RequestBody Product product) {
+    public Product insertProduct(@Valid @RequestBody Product product) {
         return productService.insertProduct(product);
     }
 
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+    public Product updateProduct(@Valid @PathVariable("id") Long id, @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
 

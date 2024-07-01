@@ -2,6 +2,7 @@ package com.igo.apiDelivery.controller;
 
 import com.igo.apiDelivery.model.Client;
 import com.igo.apiDelivery.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping()
-    public Client insertClient(@RequestBody Client client){
+    public Client insertClient(@RequestBody @Valid Client client){
         return clientService.insertClient(client);
     }
     @GetMapping("/{id}")

@@ -2,6 +2,8 @@ package com.igo.apiDelivery.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -18,18 +20,21 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty(message = "Campo nome é obrigatório")
     @Column(nullable = false)
     private String name;
 
+    @NotEmpty(message = "Campo descrição é obrigatório")
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @NotNull(message = "Campo preço é obrigatório")
     private BigDecimal price;
 
     private String imgURL;
     private boolean avaliable = true;
 
+    @NotEmpty(message = "Campo restaurante é obrigatório")
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")

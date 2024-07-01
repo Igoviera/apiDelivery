@@ -34,16 +34,24 @@ public class RestaurantServiceImp implements RestaurantService {
 
     @Override
     public List<Restaurant> findAllRestaurant() {
-        return null;
+        return restaurantRepository.findAll();
     }
 
     @Override
-    public Restaurant updateProduct(Restaurant restaurant, Long id) {
-        return null;
+    public Restaurant updateRestaurant(Long id, Restaurant restaurant) {
+       return restaurantRepository.findById(id)
+               .map(recordFound -> {
+                   recordFound.setName(restaurant.getName());
+                   recordFound.setAddress(restaurant.getAddress());
+                   recordFound.setProducts(restaurant.getProducts());
+                   return restaurantRepository.save(recordFound);
+
+               }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
     public void deleteRestaurant(Long id) {
-
+        restaurantRepository.delete(restaurantRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }

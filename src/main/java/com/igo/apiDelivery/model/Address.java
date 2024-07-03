@@ -17,6 +17,7 @@ public class Address {
     @NotEmpty(message = "Campo cep é obrigatório")
     @Column(nullable = false, unique = true)
     private String cep;
+
     @NotEmpty(message = "Campo complemento é obrigatório")
     private String complemento;
 }

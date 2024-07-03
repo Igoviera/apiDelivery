@@ -3,6 +3,7 @@ package com.igo.apiDelivery.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class Restaurant {
     private String name;
 
     @Embedded
+    @Valid
     private Address address;
 
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

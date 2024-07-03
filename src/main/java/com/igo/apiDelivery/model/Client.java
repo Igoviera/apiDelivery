@@ -1,6 +1,8 @@
 package com.igo.apiDelivery.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,10 +25,12 @@ public class Client {
     private String name;
 
     @NotEmpty(message = "Campo e-mail é obrigatório")
+    @Email(message = "Informe um e-mail válido")
     @Column(nullable = false, unique = true)
     private String email;
 
     @Embedded
+    @Valid
     private Address address;
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)

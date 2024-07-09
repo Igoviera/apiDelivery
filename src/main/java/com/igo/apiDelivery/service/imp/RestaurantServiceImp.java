@@ -1,18 +1,17 @@
 package com.igo.apiDelivery.service.imp;
 
+import com.igo.apiDelivery.dto.RestaurantDTO;
+import com.igo.apiDelivery.dto.mapper.RestaurantMapper;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
-import com.igo.apiDelivery.model.Address;
-import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.model.Restaurant;
 import com.igo.apiDelivery.repository.ProductRepository;
 import com.igo.apiDelivery.repository.RestaurantRepository;
 import com.igo.apiDelivery.service.RestaurantService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,35 +19,34 @@ public class RestaurantServiceImp implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final ProductRepository productRepository;
-
+    private final RestaurantMapper restaurantMapper;
     @Override
-    public Restaurant insertRestaurant(Restaurant restaurantEntity) {
-        return restaurantRepository.save(restaurantEntity);
+    public RestaurantDTO insertRestaurant(RestaurantDTO restaurantDTO) {
+        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toEntity(restaurantDTO)));
     }
-
     @Override
-    public Restaurant findByIdRestaurant(Long id) {
+    public RestaurantDTO findByIdRestaurant(Long id) {
         return restaurantRepository.findById(id)
+                .map(restaurant -> restaurantMapper.toDTO(restaurant))
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
-
     @Override
-    public List<Restaurant> findAllRestaurant() {
-        return restaurantRepository.findAll();
+    public List<RestaurantDTO> findAllRestaurant() {
+        return restaurantRepository.findAll()
+                .stream()
+                .map(restaurant -> restaurantMapper.toDTO(restaurant))
+                .collect(Collectors.toList());
     }
-
     @Override
-    public Restaurant updateRestaurant(Long id, Restaurant restaurant) {
+    public RestaurantDTO updateRestaurant(Long id, Restaurant restaurant) {
        return restaurantRepository.findById(id)
                .map(recordFound -> {
                    recordFound.setName(restaurant.getName());
                    recordFound.setAddress(restaurant.getAddress());
                    recordFound.setProducts(restaurant.getProducts());
-                   return restaurantRepository.save(recordFound);
-
+                   return restaurantMapper.toDTO(restaurantRepository.save(recordFound));
                }).orElseThrow(() -> new RecordNotFoundException(id));
     }
-
     @Override
     public void deleteRestaurant(Long id) {
         restaurantRepository.delete(restaurantRepository.findById(id)

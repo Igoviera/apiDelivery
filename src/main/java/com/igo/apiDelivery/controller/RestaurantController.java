@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.controller;
 
+import com.igo.apiDelivery.dto.RestaurantDTO;
 import com.igo.apiDelivery.model.Restaurant;
 import com.igo.apiDelivery.service.RestaurantService;
 import jakarta.validation.Valid;
@@ -17,19 +18,19 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @PostMapping
-    public Restaurant insertRestaurant(@Valid @RequestBody Restaurant restaurantEntity){
-        return restaurantService.insertRestaurant(restaurantEntity);
+    public RestaurantDTO insertRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO){
+        return restaurantService.insertRestaurant(restaurantDTO);
     }
     @GetMapping
-    public List<Restaurant> findAllRestaurant(){
+    public List<RestaurantDTO> findAllRestaurant(){
         return restaurantService.findAllRestaurant();
     }
     @GetMapping("/{id}")
-    public Restaurant findByIdRestaurant(@PathVariable("id") Long id){
+    public RestaurantDTO findByIdRestaurant(@PathVariable("id") Long id){
         return restaurantService.findByIdRestaurant(id);
     }
     @PutMapping("/{id}")
-    public Restaurant updateRestaurant(@Valid @PathVariable("id") Long id, @RequestBody Restaurant restaurant){
+    public RestaurantDTO updateRestaurant(@Valid @PathVariable("id") Long id, @RequestBody Restaurant restaurant){
         return restaurantService.updateRestaurant(id, restaurant);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)

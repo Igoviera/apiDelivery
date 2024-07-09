@@ -21,7 +21,7 @@ public class Product implements Serializable {
     private Long id;
 
     @NotEmpty(message = "Campo nome é obrigatório")
-    @Column(nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
     @NotEmpty(message = "Campo descrição é obrigatório")
@@ -34,10 +34,10 @@ public class Product implements Serializable {
     private String imgURL;
     private boolean avaliable = true;
 
-    @NotEmpty(message = "Campo restaurante é obrigatório")
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne//(fetch = FetchType.LAZY)
+    //@NotEmpty(message = "Campo restaurante é obrigatório")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Restaurant restaurant;
 
 //    @OneToMany()

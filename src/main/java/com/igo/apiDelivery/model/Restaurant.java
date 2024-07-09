@@ -34,8 +34,8 @@ public class Restaurant {
     private Address address;
 
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @JsonIgnore
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    //@JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
 
 }

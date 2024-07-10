@@ -1,13 +1,14 @@
 package com.igo.apiDelivery.service;
 
+import com.igo.apiDelivery.dto.ProductDTO;
 import com.igo.apiDelivery.model.Product;
 
 import java.util.List;
 
 public interface ProductService {
-   Product insertProduct(Product product);
-   Product findByIdProduct(Long id);
-   List<Product> findAllProducts();
-   Product updateProduct(Long id, Product product);
+   ProductDTO insertProduct(ProductDTO productDTO);
+   ProductDTO findByIdProduct(Long id);
+   List<ProductDTO> findAllProducts();
+   ProductDTO updateProduct(Long id, ProductDTO productDTO);
    void deleteProduct(Long id);
 }

@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.controller;
 
+import com.igo.apiDelivery.dto.ProductDTO;
 import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.service.ProductService;
 import jakarta.validation.Valid;
@@ -19,23 +20,23 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product insertProduct(@Valid @RequestBody Product product) {
-        return productService.insertProduct(product);
+    public ProductDTO insertProduct(@Valid @RequestBody ProductDTO productDTO) {
+        return productService.insertProduct(productDTO);
     }
 
     @GetMapping("/{id}")
-    public Product findProdut(@PathVariable("id") Long id) {
+    public ProductDTO findProdut(@PathVariable("id") Long id) {
         return productService.findByIdProduct(id);
     }
 
     @GetMapping
-    public List<Product> findAllProduct() {
+    public List<ProductDTO> findAllProduct() {
         return productService.findAllProducts();
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@Valid @PathVariable("id") Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    public ProductDTO updateProduct(@Valid @PathVariable("id") Long id, @RequestBody ProductDTO productDTO) {
+        return productService.updateProduct(id, productDTO);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
-
     public ProductDTO toDTO(Product product) {
         if (product == null){
             return null;
@@ -16,7 +15,9 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getImgURL()
+                product.getImgURL(),
+                product.isAvaliable(),
+                product.getRestaurant() != null ? product.getRestaurant().getId() : null
         );
     }
 
@@ -31,6 +32,7 @@ public class ProductMapper {
         product.setDescription(productDTO.description());
         product.setPrice(productDTO.price());
         product.setImgURL(productDTO.imgURL());
+
 
         return product;
     }

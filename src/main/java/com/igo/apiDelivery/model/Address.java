@@ -19,5 +19,5 @@ public class Address {
     private String cep;
 
     @NotEmpty(message = "Campo complemento é obrigatório")
-    private String complemento;
+    private String logradouro;
 }

@@ -1,5 +1,7 @@
 package com.igo.apiDelivery.service.imp;
 
+import com.igo.apiDelivery.dto.ProductDTO;
+import com.igo.apiDelivery.dto.mapper.ProductMapper;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.model.Restaurant;
@@ -7,27 +9,32 @@ import com.igo.apiDelivery.repository.ProductRepository;
 import com.igo.apiDelivery.repository.RestaurantRepository;
 import com.igo.apiDelivery.service.ProductService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
     private final RestaurantRepository restaurantRepository;
+    private  final ProductMapper productMapper;
 
     @Override
-    public Product insertProduct(Product product) {
+    public ProductDTO insertProduct(ProductDTO productDTO) {
         Product newProduct = new Product();
 
-        newProduct.setName(product.getName());
-        newProduct.setDescription(product.getDescription());
-        newProduct.setPrice(product.getPrice());
+        newProduct.setName(productDTO.name());
+        newProduct.setDescription(productDTO.description());
+        newProduct.setPrice(productDTO.price());
+        newProduct.setImgURL(productDTO.imgURL());
+        newProduct.setAvaliable(productDTO.avaliable());
 
-        Long restauranteId = product.getRestaurant().getId();
+        Long restauranteId = productDTO.restaurantId();
         Restaurant restaurant = restaurantRepository.findById(restauranteId)
                 .orElseThrow(() -> new RecordNotFoundException(restauranteId));
 
@@ -35,31 +42,38 @@ public class ProductServiceImp implements ProductService {
 
         restaurant.getProducts().add(newProduct);
 
-        return productRepository.save(newProduct);
+        Product savadProduct = productRepository.save(newProduct);
+
+        return productMapper.toDTO(savadProduct);
     }
 
     @Override
-    public Product findByIdProduct(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+    public ProductDTO findByIdProduct(Long id) {
+        return productRepository.findById(id)
+                .map(product -> productMapper.toDTO(product))
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDTO> findAllProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(product -> productMapper.toDTO(product))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         return productRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setPrice(product.getPrice());
-                    recordFound.setName(product.getName());
-                    recordFound.setDescription(product.getDescription());
-                    recordFound.setImgURL(product.getImgURL());
-                    return productRepository.save(recordFound);
+                    recordFound.setPrice(productDTO.price());
+                    recordFound.setName(productDTO.name());
+                    recordFound.setDescription(productDTO.description());
+                    recordFound.setImgURL(productDTO.imgURL());
+
+                    return productMapper.toDTO(productRepository.save(recordFound));
                 }).orElseThrow(() -> new RecordNotFoundException(id));
     }
-
     @Override
     public void deleteProduct(Long id) {
         productRepository.delete(productRepository.findById(id)

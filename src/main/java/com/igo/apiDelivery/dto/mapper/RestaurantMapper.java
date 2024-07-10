@@ -8,7 +8,6 @@ import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.model.Restaurant;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public class RestaurantMapper {
 
         AddressDTO addressDTO = new AddressDTO(
                restaurant.getAddress().getCep(),
-               restaurant.getAddress().getComplemento()
+               restaurant.getAddress().getLogradouro()
         );
 
         Set<ProductDTO> productDTOS = restaurant.getProducts()
@@ -32,7 +31,12 @@ public class RestaurantMapper {
                         product.getName(),
                         product.getDescription(),
                         product.getPrice(),
-                        product.getImgURL())).collect(Collectors.toSet());
+                        product.getImgURL(),
+                        product.isAvaliable(),
+                        product.getRestaurant().getId()
+
+                ))
+                .collect(Collectors.toSet());
 
         return new RestaurantDTO(
                 restaurant.getId(),
@@ -55,7 +59,7 @@ public class RestaurantMapper {
 
         Address address = new Address();
         address.setCep(restaurantDTO.address().cep());
-        address.setComplemento(restaurantDTO.address().complemento());
+        address.setLogradouro(restaurantDTO.address().logradouro());
 
         restaurant.setName(restaurantDTO.name());
         restaurant.setAddress(address);
@@ -64,13 +68,19 @@ public class RestaurantMapper {
                 .stream()
                 .map(productDTO -> {
                     var product = new Product();
+
                     product.setId(productDTO.id());
                     product.setName(productDTO.name());
                     product.setDescription(productDTO.description());
                     product.setPrice(productDTO.price());
                     product.setImgURL(productDTO.imgURL());
+                    product.setAvaliable(productDTO.avaliable());
+
+                    product.setRestaurant(restaurant);
                     return product;
-                }).collect(Collectors.toSet());
+                })
+                .collect(Collectors.toSet());
+
                 restaurant.setProducts(productList);
 
                 return restaurant;

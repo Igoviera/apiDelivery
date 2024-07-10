@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class RestaurantServiceImp implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
-    private final ProductRepository productRepository;
+//    private final ProductRepository productRepository;
     private final RestaurantMapper restaurantMapper;
     @Override
     public RestaurantDTO insertRestaurant(RestaurantDTO restaurantDTO) {

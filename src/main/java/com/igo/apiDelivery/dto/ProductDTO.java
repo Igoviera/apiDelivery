@@ -21,6 +21,9 @@ public record ProductDTO(
         @NotNull(message = "Campo preço é obrigatório.")
         BigDecimal price,
 
-        String imgURL
-) {
-}
+        String imgURL,
+
+        boolean avaliable,
+
+       Long restaurantId
+) {}

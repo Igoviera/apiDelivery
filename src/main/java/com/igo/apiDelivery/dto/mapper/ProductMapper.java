@@ -32,7 +32,7 @@ public class ProductMapper {
         product.setDescription(productDTO.description());
         product.setPrice(productDTO.price());
         product.setImgURL(productDTO.imgURL());
-
+        product.setAvaliable(productDTO.avaliable());
 
         return product;
     }

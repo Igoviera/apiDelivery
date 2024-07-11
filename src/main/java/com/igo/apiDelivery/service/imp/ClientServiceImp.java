@@ -1,6 +1,10 @@
 package com.igo.apiDelivery.service.imp;
 
+import com.igo.apiDelivery.dto.ClientDTO;
+import com.igo.apiDelivery.dto.mapper.AddressMapper;
+import com.igo.apiDelivery.dto.mapper.ClientMapper;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
+import com.igo.apiDelivery.model.Address;
 import com.igo.apiDelivery.model.Client;
 import com.igo.apiDelivery.repository.ClientRepository;
 import com.igo.apiDelivery.service.ClientService;
@@ -8,40 +12,52 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ClientServiceImp implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
+    private final AddressMapper addressMapper;
 
     @Override
-    public Client insertClient(Client client) {
-        return clientRepository.save(client);
+    public ClientDTO insertClient(ClientDTO clientDTO) {
+        return clientMapper.toDto(clientRepository.save(clientMapper.toEntity(clientDTO)));
     }
 
     @Override
-    public List<Client> findAllClients() {
-        return clientRepository.findAll();
+    public List<ClientDTO> findAllClients() {
+        return clientRepository.findAll()
+                .stream()
+                .map(client -> clientMapper.toDto(client))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Client findByIdClient(Long id) {
-        return clientRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+    public ClientDTO findByIdClient(Long id) {
+        return clientMapper.toDto(clientRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 
     @Override
-    public Client updateClient(Long id, Client client) {
+    public ClientDTO updateClient(Long id, ClientDTO clientDTO) {
         return clientRepository.findById(id)
-                .map(client1 -> {
-                    client1.setName(client.getName());
-                    client1.setEmail(client.getEmail());
-                    client1.setAddress(client.getAddress());
-                    client1.setBag(client.getBag());
+                .map(existingClient -> {
+                    existingClient.setName(clientDTO.name());
+                    existingClient.setEmail(clientDTO.email());
+                    //existingClient.setBag(clientDTO.bag());
+                    existingClient.setAddress(addressMapper.toEntity(clientDTO.address()));
 
-                   return clientRepository.save(client1);
 
-                }).orElseThrow(() -> new RecordNotFoundException(id));
+                    Client updatedClient = clientRepository.save(existingClient);
+
+                    return clientMapper.toDto(updatedClient);
+
+                })
+                .orElseThrow(() -> new RecordNotFoundException(id));
+
     }
 
     @Override

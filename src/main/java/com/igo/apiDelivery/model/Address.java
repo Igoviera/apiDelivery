@@ -15,7 +15,7 @@ import lombok.Setter;
 @Embeddable
 public class Address {
     @NotEmpty(message = "Campo cep é obrigatório")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String cep;
 
     @NotEmpty(message = "Campo logradouro é obrigatório")

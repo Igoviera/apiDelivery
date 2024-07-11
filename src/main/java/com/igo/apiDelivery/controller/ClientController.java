@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.controller;
 
+import com.igo.apiDelivery.dto.ClientDTO;
 import com.igo.apiDelivery.model.Client;
 import com.igo.apiDelivery.service.ClientService;
 import jakarta.validation.Valid;
@@ -16,22 +17,22 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping()
-    public Client insertClient(@RequestBody @Valid Client client){
-        return clientService.insertClient(client);
+    public ClientDTO insertClient(@RequestBody @Valid ClientDTO clientDTO){
+        return clientService.insertClient(clientDTO);
     }
 
     @GetMapping
-    public List<Client> findAllClients(){
+    public List<ClientDTO> findAllClients(){
         return clientService.findAllClients();
     }
     @GetMapping("/{id}")
-    public Client findByIdClient(@PathVariable("id") Long id){
+    public ClientDTO findByIdClient(@PathVariable("id") Long id){
         return clientService.findByIdClient(id);
     }
 
     @PutMapping("/{id}")
-    public  Client updateClient(@PathVariable("id") Long id, @RequestBody Client client){
-        return clientService.updateClient(id, client);
+    public  ClientDTO updateClient(@PathVariable("id") Long id, @RequestBody ClientDTO clientDTO){
+        return clientService.updateClient(id, clientDTO);
     }
     @DeleteMapping("/{id}")
     public void deleteClient(@PathVariable("id") Long id){

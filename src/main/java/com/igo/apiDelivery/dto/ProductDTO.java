@@ -25,5 +25,5 @@ public record ProductDTO(
 
         boolean avaliable,
 
-       Long restaurantId
+        Long restaurantId
 ) {}

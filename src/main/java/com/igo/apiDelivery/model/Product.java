@@ -40,8 +40,8 @@ public class Product implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Restaurant restaurant;
 
-//    @OneToMany()
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 }

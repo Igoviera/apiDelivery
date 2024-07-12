@@ -4,9 +4,7 @@ import com.igo.apiDelivery.model.Category;
 import com.igo.apiDelivery.service.CategoryService;
 import com.igo.apiDelivery.service.imp.CategoryServiceImp;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,9 @@ public class CategoryController {
     @GetMapping
     public List<Category> findAllCaterory(){
         return categoryService.findAllCategory();
+    }
+    @PostMapping
+    public Category insertCategory(@RequestBody Category category){
+        return categoryService.insertCategory(category);
     }
 }

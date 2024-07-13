@@ -33,7 +33,8 @@ public class RestaurantMapper {
                         product.getPrice(),
                         product.getImgURL(),
                         product.isAvaliable(),
-                        product.getRestaurant().getId()
+                        product.getRestaurant().getId(),
+                        product.getCategory().getId()
 
                 ))
                 .collect(Collectors.toSet());

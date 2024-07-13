@@ -3,10 +3,13 @@ package com.igo.apiDelivery.service.imp;
 import com.igo.apiDelivery.dto.ProductDTO;
 import com.igo.apiDelivery.dto.mapper.ProductMapper;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
+import com.igo.apiDelivery.model.Category;
 import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.model.Restaurant;
+import com.igo.apiDelivery.repository.CategoryRepository;
 import com.igo.apiDelivery.repository.ProductRepository;
 import com.igo.apiDelivery.repository.RestaurantRepository;
+import com.igo.apiDelivery.service.CategoryService;
 import com.igo.apiDelivery.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,8 @@ public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
     private final RestaurantRepository restaurantRepository;
+    private final CategoryRepository categoryRepository;
+
     private  final ProductMapper productMapper;
 
     @Override
@@ -38,9 +43,16 @@ public class ProductServiceImp implements ProductService {
         Restaurant restaurant = restaurantRepository.findById(restauranteId)
                 .orElseThrow(() -> new RecordNotFoundException(restauranteId));
 
-        newProduct.setRestaurant(restaurant);
+        Long categoryId = productDTO.categoryId();
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RecordNotFoundException(categoryId));
 
+
+        newProduct.setRestaurant(restaurant);
         restaurant.getProducts().add(newProduct);
+
+        newProduct.setCategory(category);
+        category.getProducts().add(newProduct);
 
         Product savadProduct = productRepository.save(newProduct);
 

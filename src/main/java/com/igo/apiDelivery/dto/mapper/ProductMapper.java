@@ -17,7 +17,8 @@ public class ProductMapper {
                 product.getPrice(),
                 product.getImgURL(),
                 product.isAvaliable(),
-                product.getRestaurant() != null ? product.getRestaurant().getId() : null
+                product.getRestaurant() != null ? product.getRestaurant().getId() : null,
+                product.getCategory() != null ? product.getCategory().getId() : null
         );
     }
 

@@ -7,4 +7,5 @@ import java.util.List;
 public interface CategoryService {
     List<Category> findAllCategory();
     Category insertCategory(Category category);
+    Category findByIdCategory(Long id);
 }

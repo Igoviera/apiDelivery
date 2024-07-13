@@ -30,4 +30,18 @@ public class CategoryServiceImp implements CategoryService {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
+
+    @Override
+    public Category updateCategory(Long id, Category category) {
+        return categoryRepository.findById(id).map(categoryFound -> {
+                    categoryFound.setName(category.getName());
+                    return categoryRepository.save(categoryFound);
+                }).orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+       categoryRepository.delete(categoryRepository.findById(id)
+               .orElseThrow(() -> new RecordNotFoundException(id)));
+    }
 }

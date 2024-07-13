@@ -30,4 +30,13 @@ public class CategoryController {
         return categoryService.findByIdCategory(id);
     }
 
+    @PutMapping("/{id}")
+    public Category updateCategory(@PathVariable("id") Long id, Category category){
+        return categoryService.updateCategory(id, category);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCategory(@PathVariable("id") Long id){
+        return categoryService.deleteCategory(id);
+    }
 }

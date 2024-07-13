@@ -4,6 +4,7 @@ import com.igo.apiDelivery.model.Restaurant;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public record ProductDTO(
         @Length(max = 100,message = "Campo descrição não pode ultrapassar 100 caracteres.")
         String description,
 
+        @Positive(message = "Campo preço tem que ser positivo")
         @NotNull(message = "Campo preço é obrigatório.")
         BigDecimal price,
 
@@ -25,5 +27,7 @@ public record ProductDTO(
 
         boolean avaliable,
 
-        Long restaurantId
+        Long restaurantId,
+
+        Long categoryId
 ) {}

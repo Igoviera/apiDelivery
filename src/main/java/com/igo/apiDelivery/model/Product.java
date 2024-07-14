@@ -34,6 +34,7 @@ public class Product implements Serializable {
     private BigDecimal price;
 
     private String imgURL;
+
     private boolean avaliable = true;
 
     //@NotEmpty(message = "Campo restaurante é obrigatório")

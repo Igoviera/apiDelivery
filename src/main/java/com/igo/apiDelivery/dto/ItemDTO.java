@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Embeddable
 public class ItemDTO {
-    private Long produtoId;
-    private Integer quantidade;
-    private Long sacolaId;
+    private Long productId;
+    private Integer amount;
+    private Long bagId;
 }

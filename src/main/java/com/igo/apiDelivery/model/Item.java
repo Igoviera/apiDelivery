@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,14 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty(message = "Campo valor é obrigatório")
+    //@NotEmpty(message = "Campo valor é obrigatório")
     private Integer amount;
-
-    @ManyToOne
-    private Bag bag;
 
     @OneToOne
     private Product product;
+
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Bag bag;
 
 }

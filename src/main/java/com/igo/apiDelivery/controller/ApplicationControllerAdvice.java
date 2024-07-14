@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.controller;
 
+import com.igo.apiDelivery.exception.BagEmptyException;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,5 +27,10 @@ public class ApplicationControllerAdvice {
                 .map(erro -> erro.getDefaultMessage())
                 .collect(Collectors.toList());
         return new ApiErros(errors);
+    }
+    @ExceptionHandler(BagEmptyException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErros handleBagEmptyException(BagEmptyException ex){
+        return new ApiErros(ex.getMessage());
     }
 }

@@ -1,5 +1,7 @@
 package com.igo.apiDelivery.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.igo.apiDelivery.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +11,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "tb_bag")
@@ -19,14 +20,18 @@ public class Bag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private BigDecimal total;
-    private boolean fechada;
-    private LocalDate dataPedido;
+    private boolean close;
+    //private LocalDate dataPedido;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Client client;
 
-    @OneToMany
+    @Enumerated(EnumType.ORDINAL)
+    private PaymentMethod paymentMethod;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Item> items;
 
 }

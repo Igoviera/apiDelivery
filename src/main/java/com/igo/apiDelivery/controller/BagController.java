@@ -1,0 +1,33 @@
+package com.igo.apiDelivery.controller;
+
+import com.igo.apiDelivery.dto.ItemDTO;
+import com.igo.apiDelivery.exception.RecordNotFoundException;
+import com.igo.apiDelivery.model.Bag;
+import com.igo.apiDelivery.model.Item;
+import com.igo.apiDelivery.repository.BagRepository;
+import com.igo.apiDelivery.service.BagService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/food/bags")
+public class BagController {
+
+    private final BagService bagService;
+
+    @PostMapping()
+    public Item insertItemBag(@RequestBody ItemDTO itemDTO){
+        return bagService.inserItem(itemDTO);
+    }
+
+    @GetMapping("/{id}")
+    public Bag findBag(@PathVariable("id") Long id){
+        return bagService.findBag(id);
+    }
+
+    @PatchMapping("/closeBag/{bagId}")
+    public Bag closeBag(@PathVariable("id") Long bagId, @RequestParam("paymentMethod") int paymentMethod){
+        return bagService.closeBag(bagId, paymentMethod);
+    }
+}

@@ -5,12 +5,17 @@ import com.igo.apiDelivery.dto.mapper.AddressMapper;
 import com.igo.apiDelivery.dto.mapper.ClientMapper;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Address;
+import com.igo.apiDelivery.model.Bag;
 import com.igo.apiDelivery.model.Client;
+import com.igo.apiDelivery.repository.BagRepository;
 import com.igo.apiDelivery.repository.ClientRepository;
 import com.igo.apiDelivery.service.ClientService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,12 +24,28 @@ import java.util.stream.Collectors;
 public class ClientServiceImp implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final BagRepository bagRepository;
+
     private final ClientMapper clientMapper;
     private final AddressMapper addressMapper;
 
+
     @Override
+    @Transactional
     public ClientDTO insertClient(ClientDTO clientDTO) {
-        return clientMapper.toDto(clientRepository.save(clientMapper.toEntity(clientDTO)));
+        Client savedClient = clientRepository.save(clientMapper.toEntity(clientDTO));
+
+        ClientDTO client = clientMapper.toDto(savedClient);
+
+        Bag bag = new Bag();
+        bag.setClient(savedClient);
+        bag.setClose(false);
+        bag.setTotal(BigDecimal.ZERO);
+        bag.setItems(new ArrayList<>());
+
+        bagRepository.save(bag);
+
+        return client;
     }
 
     @Override

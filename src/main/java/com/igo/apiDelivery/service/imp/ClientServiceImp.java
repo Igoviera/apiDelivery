@@ -39,7 +39,7 @@ public class ClientServiceImp implements ClientService {
 
         Bag bag = new Bag();
         bag.setClient(savedClient);
-        bag.setClose(false);
+        bag.setClosed(false);
         bag.setTotal(BigDecimal.ZERO);
         bag.setItems(new ArrayList<>());
 

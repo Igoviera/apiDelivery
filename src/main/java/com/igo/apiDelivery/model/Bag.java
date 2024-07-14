@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
@@ -19,19 +20,21 @@ public class Bag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
-    private boolean close;
-    //private LocalDate dataPedido;
+    private boolean closed;
+    @Enumerated(EnumType.ORDINAL)
+    private PaymentMethod paymentMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Client client;
 
-    @Enumerated(EnumType.ORDINAL)
-    private PaymentMethod paymentMethod;
-
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
+
+    private LocalDate createdAt;
 
 }

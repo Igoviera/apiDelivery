@@ -1,6 +1,8 @@
 package com.igo.apiDelivery.service.imp;
 
+import com.igo.apiDelivery.dto.BagDTO;
 import com.igo.apiDelivery.dto.ItemDTO;
+import com.igo.apiDelivery.dto.mapper.BagMapper;
 import com.igo.apiDelivery.enums.PaymentMethod;
 import com.igo.apiDelivery.exception.BagEmptyException;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
@@ -16,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,21 +29,22 @@ public class BagServiceImp implements BagService {
     private final BagRepository bagRepository;
     private final ProductRepository productRepository;
     private final ItemRepository itemRepository;
+    private final BagMapper bagMapper;
 
     @Override
     @Transactional
     public Item inserItem(ItemDTO itemDTO) {
-        Bag bag = findBag(itemDTO.getBagId());
+        Bag bag = findBag(itemDTO.bagId());
 
-        if (bag.isClose()){
+        if (bag.isClosed()){
             throw new RuntimeException("Sacola está fechada.");
         }
 
         Item item = new Item();
-        item.setAmount(itemDTO.getAmount());
+        item.setAmount(itemDTO.amount());
         item.setBag(bag);
-        item.setProduct(productRepository.findById(itemDTO.getProductId())
-                .orElseThrow(() -> new RecordNotFoundException(itemDTO.getProductId())));
+        item.setProduct(productRepository.findById(itemDTO.productId())
+                .orElseThrow(() -> new RecordNotFoundException(itemDTO.productId())));
 
         List<Item> items = bag.getItems();
         if (items.isEmpty()){
@@ -68,13 +72,21 @@ public class BagServiceImp implements BagService {
     }
 
     @Override
+    public BagDTO getBagDatails(Long bagId) {
+        Bag bag = bagRepository.findById(bagId)
+                .orElseThrow(() -> new RecordNotFoundException(bagId));
+
+        return bagMapper.toDTO(bag);
+    }
+
+    @Override
     public Bag findBag(Long id) {
       return bagRepository.findById(id)
               .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
-    public Bag closeBag(Long id, int paymentMethod) {
+    public Bag closedBag(Long id, int paymentMethod) {
         Bag bag = findBag(id);
 
         if (bag.getItems().isEmpty()){
@@ -84,7 +96,8 @@ public class BagServiceImp implements BagService {
         PaymentMethod paymentMethod1 = paymentMethod == 0 ? PaymentMethod.DINHEIRO : PaymentMethod.MAQUINETA;
 
         bag.setPaymentMethod(paymentMethod1);
-        bag.setClose(true);
+        bag.setCreatedAt(LocalDate.now());
+        bag.setClosed(true);
 
         return bagRepository.save(bag);
     }

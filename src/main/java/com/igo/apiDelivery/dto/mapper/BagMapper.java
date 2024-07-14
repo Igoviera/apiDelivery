@@ -25,6 +25,7 @@ public class BagMapper {
                 bag.getPaymentMethod(),
                 bag.getCreatedAt(),
                 bag.getClient() != null ? bag.getClient().getName() : null,
+                bag.getStatus(),
                 bag.getItems().stream()
                         .map(itemMapper::toDTO)
                         .collect(Collectors.toList())

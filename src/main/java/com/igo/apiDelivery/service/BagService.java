@@ -9,5 +9,5 @@ public interface BagService {
     Item inserItem(ItemDTO itemDTO);
     BagDTO getBagDatails(Long bagId);
     Bag findBag(Long id);
-    Bag closedBag(Long id, int paymentMethod);
+    BagDTO closedBag(Long id, int paymentMethod);
 }

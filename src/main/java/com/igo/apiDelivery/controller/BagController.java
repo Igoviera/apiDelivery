@@ -35,7 +35,7 @@ public class BagController {
 //    }
 
     @PatchMapping("/closedBag/{bagId}")
-    public Bag closedBag(@PathVariable("bagId") Long bagId, @RequestParam("paymentMethod") int paymentMethod){
+    public BagDTO closedBag(@PathVariable("bagId") Long bagId, @RequestParam("paymentMethod") int paymentMethod){
         return bagService.closedBag(bagId, paymentMethod);
     }
 }

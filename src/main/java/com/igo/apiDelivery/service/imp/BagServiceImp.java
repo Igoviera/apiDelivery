@@ -3,6 +3,7 @@ package com.igo.apiDelivery.service.imp;
 import com.igo.apiDelivery.dto.BagDTO;
 import com.igo.apiDelivery.dto.ItemDTO;
 import com.igo.apiDelivery.dto.mapper.BagMapper;
+import com.igo.apiDelivery.enums.OrderStatus;
 import com.igo.apiDelivery.enums.PaymentMethod;
 import com.igo.apiDelivery.exception.BagEmptyException;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +88,7 @@ public class BagServiceImp implements BagService {
     }
 
     @Override
-    public Bag closedBag(Long id, int paymentMethod) {
+    public BagDTO closedBag(Long id, int paymentMethod) {
         Bag bag = findBag(id);
 
         if (bag.getItems().isEmpty()){
@@ -96,9 +98,10 @@ public class BagServiceImp implements BagService {
         PaymentMethod paymentMethod1 = paymentMethod == 0 ? PaymentMethod.DINHEIRO : PaymentMethod.MAQUINETA;
 
         bag.setPaymentMethod(paymentMethod1);
-        bag.setCreatedAt(LocalDate.now());
+        bag.setCreatedAt(LocalDateTime.now());
+        bag.setStatus(OrderStatus.IN_PREPARATION);
         bag.setClosed(true);
 
-        return bagRepository.save(bag);
+        return bagMapper.toDTO(bagRepository.save(bag));
     }
 }

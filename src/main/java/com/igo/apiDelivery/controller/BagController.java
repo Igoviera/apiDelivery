@@ -28,6 +28,10 @@ public class BagController {
     public BagDTO getBagDetails(@PathVariable Long id) {
        return bagService.getBagDatails(id);
     }
+    @DeleteMapping("/{bagId}/item/{itemId}")
+    public BagDTO deleteItemBag(@PathVariable Long bagId, @PathVariable Long itemId){
+       return bagService.deleteItemBag(bagId, itemId);
+    }
 
 //    @GetMapping("/{id}")
 //    public Bag findBag(@PathVariable("id") Long id){

@@ -8,6 +8,7 @@ import com.igo.apiDelivery.model.Item;
 public interface BagService {
     Item inserItem(ItemDTO itemDTO);
     BagDTO getBagDatails(Long bagId);
+    BagDTO deleteItemBag(Long bagId, Long itemId);
     Bag findBag(Long id);
     BagDTO closedBag(Long id, int paymentMethod);
 }

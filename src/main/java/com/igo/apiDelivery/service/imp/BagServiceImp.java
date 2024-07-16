@@ -9,6 +9,7 @@ import com.igo.apiDelivery.exception.BagEmptyException;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Bag;
 import com.igo.apiDelivery.model.Item;
+import com.igo.apiDelivery.model.Product;
 import com.igo.apiDelivery.model.Restaurant;
 import com.igo.apiDelivery.repository.BagRepository;
 import com.igo.apiDelivery.repository.ItemRepository;
@@ -79,6 +80,32 @@ public class BagServiceImp implements BagService {
                 .orElseThrow(() -> new RecordNotFoundException(bagId));
 
         return bagMapper.toDTO(bag);
+    }
+
+    @Override
+    public BagDTO deleteItemBag(Long bagId, Long itemId) {
+      Bag bag = findBag(bagId);
+
+      Item itemToRemove = null;
+
+      for (Item item : bag.getItems()){
+          if (item.getProduct().getId().equals(itemId)){
+              itemToRemove = item;
+              break;
+          }
+      }
+
+      if (itemToRemove != null){
+          bag.getItems().remove(itemToRemove);
+          bag.setTotal(bag.getTotal().subtract(itemToRemove.getProduct().getPrice()));
+
+          itemRepository.delete(itemToRemove);
+
+          return bagMapper.toDTO(bagRepository.save(bag));
+
+      } else {
+          throw new RecordNotFoundException(itemId);
+      }
     }
 
     @Override

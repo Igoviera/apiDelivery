@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.controller;
 
+import com.igo.apiDelivery.exception.BagClosedException;
 import com.igo.apiDelivery.exception.BagEmptyException;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(BagEmptyException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErros handleBagEmptyException(BagEmptyException ex){
+        return new ApiErros(ex.getMessage());
+    }
+
+    @ExceptionHandler(BagClosedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErros handleBagClosedException(BagClosedException ex) {
         return new ApiErros(ex.getMessage());
     }
 }

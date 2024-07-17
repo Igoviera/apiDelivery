@@ -5,6 +5,7 @@ import com.igo.apiDelivery.dto.ItemDTO;
 import com.igo.apiDelivery.dto.mapper.BagMapper;
 import com.igo.apiDelivery.enums.OrderStatus;
 import com.igo.apiDelivery.enums.PaymentMethod;
+import com.igo.apiDelivery.exception.BagClosedException;
 import com.igo.apiDelivery.exception.BagEmptyException;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Bag;
@@ -40,7 +41,7 @@ public class BagServiceImp implements BagService {
         Bag bag = findBag(itemDTO.bagId());
 
         if (bag.isClosed()){
-            throw new RuntimeException("Sacola está fechada.");
+            throw new BagClosedException();
         }
 
         Item item = new Item();
@@ -86,26 +87,18 @@ public class BagServiceImp implements BagService {
     public BagDTO deleteItemBag(Long bagId, Long itemId) {
       Bag bag = findBag(bagId);
 
-      Item itemToRemove = null;
+      Item itemToRemove = bag.getItems().stream()
+              .filter(item -> item.getId().equals(itemId))
+              .findFirst()
+              .orElseThrow(() -> null);
 
-      for (Item item : bag.getItems()){
-          if (item.getProduct().getId().equals(itemId)){
-              itemToRemove = item;
-              break;
-          }
-      }
+      bag.getItems().remove(itemToRemove);
+      bag.setTotal(bag.getTotal().subtract(itemToRemove.getProduct().getPrice()));
 
-      if (itemToRemove != null){
-          bag.getItems().remove(itemToRemove);
-          bag.setTotal(bag.getTotal().subtract(itemToRemove.getProduct().getPrice()));
+      itemRepository.delete(itemToRemove);
 
-          itemRepository.delete(itemToRemove);
+      return bagMapper.toDTO(bagRepository.save(bag));
 
-          return bagMapper.toDTO(bagRepository.save(bag));
-
-      } else {
-          throw new RecordNotFoundException(itemId);
-      }
     }
 
     @Override

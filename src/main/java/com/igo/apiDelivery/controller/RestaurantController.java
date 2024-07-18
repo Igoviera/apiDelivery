@@ -18,6 +18,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public RestaurantDTO insertRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO){
         return restaurantService.insertRestaurant(restaurantDTO);
     }

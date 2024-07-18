@@ -42,6 +42,11 @@ public class RestaurantMapper {
         return new RestaurantDTO(
                 restaurant.getId(),
                 restaurant.getName(),
+                restaurant.getOpeningHours(),
+                restaurant.getImageUrl(),
+                restaurant.getFreightRate(),
+                restaurant.getStatus(),
+                restaurant.getEstimatedDeliveryTime(),
                 addressDTO,
                 productDTOS
         );
@@ -62,9 +67,6 @@ public class RestaurantMapper {
         address.setCep(restaurantDTO.address().cep());
         address.setLogradouro(restaurantDTO.address().logradouro());
 
-        restaurant.setName(restaurantDTO.name());
-        restaurant.setAddress(address);
-
         Set<Product> productList = restaurantDTO.products()
                 .stream()
                 .map(productDTO -> {
@@ -82,8 +84,15 @@ public class RestaurantMapper {
                 })
                 .collect(Collectors.toSet());
 
-                restaurant.setProducts(productList);
+        restaurant.setName(restaurantDTO.name());
+        restaurant.setImageUrl(restaurantDTO.imageUrl());
+        restaurant.setStatus(restaurantDTO.status());
+        restaurant.setEstimatedDeliveryTime(restaurantDTO.estimatedDeliveryTime());
+        restaurant.setOpeningHours(restaurantDTO.openingHours());
+        restaurant.setFreightRate(restaurantDTO.freightRate());
+        restaurant.setAddress(address);
+        restaurant.setProducts(productList);
 
-                return restaurant;
+        return restaurant;
     }
 }

@@ -14,7 +14,8 @@ public class AddressMapper {
 
         return new AddressDTO(
             address.getCep(),
-            address.getLogradouro()
+            address.getLogradouro(),
+            address.getLocationNumber()
         );
     }
 
@@ -26,6 +27,7 @@ public class AddressMapper {
         Address address = new Address();
         address.setCep(addressDTO.cep());
         address.setLogradouro(addressDTO.logradouro());
+        address.setLocationNumber(addressDTO.locationNumber());
 
         return address;
     }

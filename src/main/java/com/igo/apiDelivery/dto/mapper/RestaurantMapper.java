@@ -20,8 +20,9 @@ public class RestaurantMapper {
         }
 
         AddressDTO addressDTO = new AddressDTO(
-               restaurant.getAddress().getCep(),
-               restaurant.getAddress().getLogradouro()
+                restaurant.getAddress().getCep(),
+                restaurant.getAddress().getLogradouro(),
+                restaurant.getAddress().getLocationNumber()
         );
 
         Set<ProductDTO> productDTOS = restaurant.getProducts()
@@ -66,6 +67,7 @@ public class RestaurantMapper {
         Address address = new Address();
         address.setCep(restaurantDTO.address().cep());
         address.setLogradouro(restaurantDTO.address().logradouro());
+        address.setLocationNumber(restaurantDTO.address().locationNumber());
 
         Set<Product> productList = restaurantDTO.products()
                 .stream()

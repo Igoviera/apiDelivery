@@ -20,4 +20,7 @@ public class Address {
 
     @NotEmpty(message = "Campo logradouro é obrigatório")
     private String logradouro;
+
+    @NotEmpty(message = "Campo número é obrigatório")
+    private String locationNumber;
 }

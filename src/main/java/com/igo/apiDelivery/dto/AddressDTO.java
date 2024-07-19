@@ -1,5 +1,6 @@
 package com.igo.apiDelivery.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 
 public record AddressDTO(
@@ -7,5 +8,8 @@ public record AddressDTO(
         String cep,
 
         @NotEmpty(message = "O campo logradouro é obrigatório")
-        String logradouro
+        String logradouro,
+
+        @NotEmpty(message = "Campo número é obrigatório")
+        String locationNumber
 ) {}

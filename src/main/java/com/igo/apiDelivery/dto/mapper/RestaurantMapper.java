@@ -43,11 +43,12 @@ public class RestaurantMapper {
         return new RestaurantDTO(
                 restaurant.getId(),
                 restaurant.getName(),
-                restaurant.getOpeningHours(),
                 restaurant.getImageUrl(),
                 restaurant.getFreightRate(),
                 restaurant.getStatus(),
                 restaurant.getEstimatedDeliveryTime(),
+                restaurant.getOpeningTime(),
+                restaurant.getClosingTime(),
                 addressDTO,
                 productDTOS
         );
@@ -90,8 +91,9 @@ public class RestaurantMapper {
         restaurant.setImageUrl(restaurantDTO.imageUrl());
         restaurant.setStatus(restaurantDTO.status());
         restaurant.setEstimatedDeliveryTime(restaurantDTO.estimatedDeliveryTime());
-        restaurant.setOpeningHours(restaurantDTO.openingHours());
         restaurant.setFreightRate(restaurantDTO.freightRate());
+        restaurant.setOpeningTime(restaurantDTO.openingTime());
+        restaurant.setClosingTime(restaurantDTO.closingTime());
         restaurant.setAddress(address);
         restaurant.setProducts(productList);
 

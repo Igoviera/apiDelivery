@@ -20,7 +20,6 @@ public class ClientController {
     public ClientDTO insertClient(@RequestBody @Valid ClientDTO clientDTO){
         return clientService.insertClient(clientDTO);
     }
-
     @GetMapping
     public List<ClientDTO> findAllClients(){
         return clientService.findAllClients();

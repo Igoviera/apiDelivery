@@ -25,7 +25,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO findProdut(@PathVariable("id") Long id) {
+    public ProductDTO findProduct(@PathVariable("id") Long id) {
         return productService.findByIdProduct(id);
     }
 
@@ -41,7 +41,7 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteProdut(@PathVariable("id") Long id) {
+    public void deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
     }
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,19 +26,16 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @NotEmpty(message = "Campo nome é obrigatório")
     @Column(nullable = false)
     private String name;
-
-    @NotBlank(message = "Opening hours are mandatory")
-    private String openingHours;
-
     private String imageUrl;
-
     @NotNull(message = "O campo status é obrigatório")
     private Boolean status;
-
+    @NotNull(message = "O horário de abertura é obrigatório")
+    private LocalTime openingTime;
+    @NotNull(message = "O horário de fechamento é obrigatório")
+    private LocalTime closingTime;
     @Embedded
     @Valid
     private Address address;

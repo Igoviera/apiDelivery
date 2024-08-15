@@ -17,7 +17,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public List<Category> findAllCaterory(){
+    public List<Category> findAllCategory(){
         return categoryService.findAllCategory();
     }
     @ResponseStatus(HttpStatus.CREATED)

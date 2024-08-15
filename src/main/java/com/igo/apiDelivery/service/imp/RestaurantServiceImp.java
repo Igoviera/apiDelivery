@@ -20,6 +20,7 @@ public class RestaurantServiceImp implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
 //    private final ProductRepository productRepository;
     private final RestaurantMapper restaurantMapper;
+
     @Override
     public RestaurantDTO insertRestaurant(RestaurantDTO restaurantDTO) {
         return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toEntity(restaurantDTO)));

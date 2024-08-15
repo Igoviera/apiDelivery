@@ -38,12 +38,13 @@ public class RestaurantServiceImp implements RestaurantService {
                 .collect(Collectors.toList());
     }
     @Override
-    public RestaurantDTO updateRestaurant(Long id, Restaurant restaurant) {
+    public RestaurantDTO updateRestaurant(Long id, RestaurantDTO restaurantDTO) {
        return restaurantRepository.findById(id)
                .map(recordFound -> {
-                   recordFound.setName(restaurant.getName());
-                   recordFound.setAddress(restaurant.getAddress());
-                   recordFound.setProducts(restaurant.getProducts());
+                   Restaurant updateRestaurant = restaurantMapper.toEntity(restaurantDTO);
+                   recordFound.setName(updateRestaurant.getName());
+                   recordFound.setAddress(updateRestaurant.getAddress());
+                   recordFound.setProducts(updateRestaurant.getProducts());
                    return restaurantMapper.toDTO(restaurantRepository.save(recordFound));
                }).orElseThrow(() -> new RecordNotFoundException(id));
     }

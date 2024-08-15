@@ -2,7 +2,10 @@ package com.igo.apiDelivery.service.imp;
 
 import com.igo.apiDelivery.dto.BagDTO;
 import com.igo.apiDelivery.dto.ItemDTO;
+import com.igo.apiDelivery.dto.ItemInformationDTO;
 import com.igo.apiDelivery.dto.mapper.BagMapper;
+import com.igo.apiDelivery.dto.mapper.ItemInformationMapper;
+import com.igo.apiDelivery.dto.mapper.ItemMapper;
 import com.igo.apiDelivery.enums.OrderStatus;
 import com.igo.apiDelivery.enums.PaymentMethod;
 import com.igo.apiDelivery.exception.BagClosedException;
@@ -33,11 +36,14 @@ public class BagServiceImp implements BagService {
     private final BagRepository bagRepository;
     private final ProductRepository productRepository;
     private final ItemRepository itemRepository;
+
+    private final ItemMapper itemMapper;
     private final BagMapper bagMapper;
+    private final ItemInformationMapper itemInformationMapper;
 
     @Override
     @Transactional
-    public Item inserItem(ItemDTO itemDTO) {
+    public ItemDTO inserItem(ItemDTO itemDTO) {
         Bag bag = findBag(itemDTO.bagId());
 
         if (bag.isClosed()){
@@ -72,25 +78,26 @@ public class BagServiceImp implements BagService {
         bag.setTotal(total);
         bagRepository.save(bag);
 
-        return item;
+        return itemMapper.toDTO(item);
     }
 
-    @Override
-    public BagDTO getBagDatails(Long bagId) {
-        Bag bag = bagRepository.findById(bagId)
-                .orElseThrow(() -> new RecordNotFoundException(bagId));
+//    @Override
+//    public ItemInformationDTO findByIdItem(Long id) {
+//        Item item = itemRepository.findById(id)
+//                .orElseThrow(() -> new RecordNotFoundException(id));
+//
+//        return itemInformationMapper.toDTO(item);
+//    }
 
-        return bagMapper.toDTO(bag);
-    }
-
     @Override
+    @Transactional
     public BagDTO deleteItemBag(Long bagId, Long itemId) {
       Bag bag = findBag(bagId);
 
       Item itemToRemove = bag.getItems().stream()
               .filter(item -> item.getId().equals(itemId))
               .findFirst()
-              .orElseThrow(() -> null);
+              .orElseThrow(() -> new  RecordNotFoundException(itemId));
 
       bag.getItems().remove(itemToRemove);
       bag.setTotal(bag.getTotal().subtract(itemToRemove.getProduct().getPrice()));

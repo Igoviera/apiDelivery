@@ -2,6 +2,7 @@ package com.igo.apiDelivery.controller;
 
 import com.igo.apiDelivery.dto.BagDTO;
 import com.igo.apiDelivery.dto.ItemDTO;
+import com.igo.apiDelivery.dto.ItemInformationDTO;
 import com.igo.apiDelivery.exception.RecordNotFoundException;
 import com.igo.apiDelivery.model.Bag;
 import com.igo.apiDelivery.model.Item;
@@ -20,23 +21,23 @@ public class BagController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Item insertItemBag(@RequestBody ItemDTO itemDTO){
+    public ItemDTO insertItemBag(@RequestBody ItemDTO itemDTO){
         return bagService.inserItem(itemDTO);
     }
 
-    @GetMapping("/{id}")
-    public BagDTO getBagDetails(@PathVariable Long id) {
-       return bagService.getBagDatails(id);
-    }
+//    @GetMapping("/{id}")
+//    public ItemInformationDTO getBagDetails(@PathVariable Long id) {
+//        return bagService.findByIdItem(id);
+//    }
     @DeleteMapping("/{bagId}/item/{itemId}")
     public BagDTO deleteItemBag(@PathVariable Long bagId, @PathVariable Long itemId){
        return bagService.deleteItemBag(bagId, itemId);
     }
 
-//    @GetMapping("/{id}")
-//    public Bag findBag(@PathVariable("id") Long id){
-//        return bagService.findBag(id);
-//    }
+    @GetMapping("/{id}")
+    public Bag findBag(@PathVariable("id") Long id){
+        return bagService.findBag(id);
+    }
 
     @PatchMapping("/closedBag/{bagId}")
     public BagDTO closedBag(@PathVariable("bagId") Long bagId, @RequestParam("paymentMethod") int paymentMethod){

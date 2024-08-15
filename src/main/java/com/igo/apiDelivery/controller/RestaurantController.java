@@ -31,8 +31,8 @@ public class RestaurantController {
         return restaurantService.findByIdRestaurant(id);
     }
     @PutMapping("/{id}")
-    public RestaurantDTO updateRestaurant(@Valid @PathVariable("id") Long id, @RequestBody Restaurant restaurant){
-        return restaurantService.updateRestaurant(id, restaurant);
+    public RestaurantDTO updateRestaurant(@Valid @PathVariable("id") Long id, @RequestBody RestaurantDTO restaurantDTO){
+        return restaurantService.updateRestaurant(id, restaurantDTO);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")

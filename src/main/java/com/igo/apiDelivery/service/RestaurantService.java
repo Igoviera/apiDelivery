@@ -9,6 +9,6 @@ public interface RestaurantService {
     RestaurantDTO insertRestaurant(RestaurantDTO restaurantDTO);
     RestaurantDTO findByIdRestaurant(Long id);
     List<RestaurantDTO> findAllRestaurant();
-    RestaurantDTO updateRestaurant(Long id, Restaurant restaurant);
+    RestaurantDTO updateRestaurant(Long id, RestaurantDTO restaurantDTO);
     void deleteRestaurant(Long id);
 }

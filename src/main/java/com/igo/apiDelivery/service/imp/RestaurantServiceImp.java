@@ -46,6 +46,8 @@ public class RestaurantServiceImp implements RestaurantService {
                    recordFound.setName(updateRestaurant.getName());
                    recordFound.setAddress(updateRestaurant.getAddress());
                    recordFound.setProducts(updateRestaurant.getProducts());
+                   recordFound.setOpeningTime(updateRestaurant.getOpeningTime());
+                   recordFound.setClosingTime(updateRestaurant.getClosingTime());
                    return restaurantMapper.toDTO(restaurantRepository.save(recordFound));
                }).orElseThrow(() -> new RecordNotFoundException(id));
     }
